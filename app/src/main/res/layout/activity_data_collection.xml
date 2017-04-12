@@ -51,29 +51,6 @@
     </FrameLayout>
 
     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/textView"
-        android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/collectionImageSwitcher"
-        android:text="Timer: "
-        android:textAlignment="center"
-        android:textColor="@android:color/background_light"
-        android:textSize="36sp"/>
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/textView3"
-        android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/collectionImageSwitcher"
-        android:text="s"
-        android:textAlignment="center"
-        android:textColor="@android:color/background_light"
-        android:textSize="36sp"/>
-
-    <TextView
         android:id="@+id/smileText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -96,5 +73,18 @@
         android:textAlignment="center"
         android:textColor="@android:color/white"
         android:textSize="36sp"/>
+
+    <view
+        android:id="@+id/timerData"
+        class="com.example.matthew.austism.dottimer"
+        id="@+id/view"
+        layout_below="@+id/textView7"
+        layout_marginEnd="94dp"
+        layout_toStartOf="@+id/startDataCollection"
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:layout_above="@+id/textView3"
+        android:layout_alignParentEnd="true"
+        android:layout_toEndOf="@+id/collectionImageSwitcher"/>
 
 </RelativeLayout>

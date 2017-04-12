@@ -182,7 +182,7 @@ public class CameraPreviewActivity extends Activity implements Camera.PreviewCal
         restartCalibration.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), PicturePicker.class);
+                Intent i = new Intent(getApplicationContext(), DataCollection.class);
                 startActivity(i);     }
         });
 
@@ -496,7 +496,7 @@ public class CameraPreviewActivity extends Activity implements Camera.PreviewCal
                     ninePointCalibration.setBallPosition(coordinates[0], coordinates[1]);
                 }
             }
-            handler.postDelayed(this, 60);
+            handler.postDelayed(this, 75);
         }
     }
 
@@ -512,7 +512,7 @@ public class CameraPreviewActivity extends Activity implements Camera.PreviewCal
         record.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), PicturePicker.class);
+                Intent i = new Intent(getApplicationContext(), DataCollection.class);
                 startActivity(i);
 
             }

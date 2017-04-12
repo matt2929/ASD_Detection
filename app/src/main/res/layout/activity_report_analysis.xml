@@ -17,7 +17,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_alignParentBottom="true"
             android:layout_weight="1"
             android:background="@android:color/background_light"
             android:orientation="vertical"
@@ -27,36 +26,32 @@
                 android:id="@+id/linearLayout2"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_above="@+id/riskreport"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
                 android:layout_weight="1"
                 android:background="@android:color/background_light"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="0.24"
                     android:background="@android:color/background_light"
                     android:orientation="horizontal">
 
                     <TextView
                         android:id="@+id/textView2"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:background="@android:color/background_light"
-                        android:text="Risk of ASD "
+                        android:text="@string/risk_of_asd"
                         android:textAlignment="center"
                         android:textColor="@android:color/background_dark"
-                        android:textSize="50dp"/>
+                        android:textSize="50sp"/>
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_weight="0.41"
                     android:background="@android:color/background_light"
                     android:orientation="horizontal">
@@ -67,10 +62,10 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@android:color/background_light"
-                        android:text="Low"
+                        android:text="@string/low"
                         android:textAlignment="center"
                         android:textColor="@android:color/background_dark"
-                        android:textSize="35sp"/>
+                        android:textSize="30sp"/>
 
                     <TextView
                         android:id="@+id/textView5"
@@ -78,10 +73,10 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@android:color/background_light"
-                        android:text="Medium"
+                        android:text="@string/medium"
                         android:textAlignment="center"
                         android:textColor="@android:color/background_dark"
-                        android:textSize="35sp"/>
+                        android:textSize="30sp"/>
 
                     <TextView
                         android:id="@+id/textView4"
@@ -89,10 +84,10 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:background="@android:color/background_light"
-                        android:text="High"
+                        android:text="@string/high"
                         android:textAlignment="center"
                         android:textColor="@android:color/background_dark"
-                        android:textSize="35sp"/>
+                        android:textSize="30sp"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -104,9 +99,6 @@
                 layout_centerVertical="true"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentStart="true"
-                android:layout_centerVertical="true"
                 android:layout_margin="20dp"
                 android:layout_weight="1"
                 android:background="@android:color/background_light"/>
@@ -114,7 +106,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_below="@+id/riskreport"
                 android:layout_weight="1"
                 android:background="@android:color/background_light"
                 android:orientation="horizontal">
@@ -123,8 +114,6 @@
                     android:id="@+id/riskfactortext"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_alignStart="@+id/riskreport"
-                    android:layout_below="@+id/riskreport"
                     android:layout_weight="1"
                     android:background="@android:color/background_light"
                     android:text="Risk Factor: 0%"
@@ -136,8 +125,6 @@
                     android:id="@+id/textView8"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_alignEnd="@+id/riskreport"
-                    android:layout_below="@+id/riskreport"
                     android:layout_weight="1"
                     android:background="@android:color/background_light"
                     android:text="Total Risk Score: 25"
@@ -179,11 +166,11 @@
                             android:id="@+id/imageButton"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:layout_toStartOf="@+id/textView9"
                             android:layout_weight="1"
                             android:background="@android:color/background_light"
                             android:scaleType="fitCenter"
-                            app:srcCompat="@drawable/pl"/>
+                            app:srcCompat="@drawable/pl"
+                            android:contentDescription=""/>
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -211,10 +198,9 @@
                                     android:id="@+id/textView9"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:layout_alignParentEnd="true"
                                     android:layout_weight="1"
                                     android:background="@android:color/background_light"
-                                    android:text=" Cognative Score"
+                                    android:text="@string/cognative_score"
                                     android:textAlignment="textEnd"
                                     android:textColor="@android:color/background_dark"
                                     android:textSize="24sp"/>
@@ -238,10 +224,9 @@
                                     android:id="@+id/textView12"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:layout_alignParentEnd="true"
                                     android:layout_weight="1"
                                     android:background="@android:color/background_light"
-                                    android:text="Social Score"
+                                    android:text="@string/social_score"
                                     android:textAlignment="textEnd"
                                     android:textColor="@android:color/background_dark"
                                     android:textSize="24sp"/>
@@ -265,10 +250,9 @@
                                     android:id="@+id/textView11"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:layout_alignParentEnd="true"
                                     android:layout_weight="1"
                                     android:background="@android:color/background_light"
-                                    android:text="Emotional Score"
+                                    android:text="@string/emotional_score"
                                     android:textAlignment="textEnd"
                                     android:textColor="@android:color/background_dark"
                                     android:textSize="24sp"/>
@@ -292,10 +276,9 @@
                                     android:id="@+id/textView10"
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:layout_alignParentEnd="true"
                                     android:layout_weight="1"
                                     android:background="@android:color/background_light"
-                                    android:text="Behavioral Score"
+                                    android:text="@string/behavioral_score"
                                     android:textAlignment="textEnd"
                                     android:textColor="@android:color/background_dark"
                                     android:textSize="24sp"/>

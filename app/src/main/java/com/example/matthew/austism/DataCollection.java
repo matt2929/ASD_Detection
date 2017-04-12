@@ -41,8 +41,22 @@ public class DataCollection extends Activity implements Camera.PreviewCallback {
 
     private TextView smileText;
     Button btnStart;
-    boolean[] selectedPicture = PicturePicker.pictureSelection;
-    int[] pictureIds = PicturePicker.imageIds;
+    dottimer _dottimer;
+    int pictureIds[] = new int[]{
+            R.drawable.threekids,
+            R.drawable.animalsbackgroundpreview5,
+            R.drawable.twogirls,
+            R.drawable.b13,
+            R.drawable.pexels_photo_58997,
+
+            R.drawable.cutedeer,
+            R.drawable.twoboys,
+           };
+
+    static boolean[] selectedPicture = new boolean[]{
+
+            true,true,true,true,true,true,true};
+
     private ImageSwitcher simpleImageSwitcher;
     int currentIndex = -1;
     int delay = 5000;
@@ -98,7 +112,6 @@ public class DataCollection extends Activity implements Camera.PreviewCallback {
     float rounded;
     Display display;
     int displayAngle;
-    TextView textView;
     private TextView coordinateText;
 
     @Override
@@ -115,9 +128,9 @@ public class DataCollection extends Activity implements Camera.PreviewCallback {
                 startActivity(i);
             }
         });
+        _dottimer = (dottimer) findViewById(R.id.timerData);
         handler2 = new Handler();
         btnStart = (Button) findViewById(R.id.startDataCollection);
-        textView = (TextView) findViewById(R.id.textView);
         myView = new View(DataCollection.this);
         preview = (FrameLayout) findViewById(R.id.facialPreview);
         fpFeatureSupported = FacialProcessing
@@ -434,16 +447,13 @@ public class DataCollection extends Activity implements Camera.PreviewCallback {
                             currentIndex++;
                         if ( currentIndex == pictureIds.length ) {
                             simpleImageSwitcher.setImageResource(android.R.drawable.screen_background_dark_transparent);
-                                textView.setVisibility(View.INVISIBLE);
                         } else {
                             simpleImageSwitcher.setImageResource(pictureIds[currentIndex]);
-                            textView.setTextColor(Color.GREEN);
                         }
                         pause=!pause;
 
                     }else{
                         pause=!pause;
-                        textView.setTextColor(Color.RED);
                         simpleImageSwitcher.setImageResource(android.R.drawable.screen_background_dark_transparent);
                     }
                     drawBallView.reset();
@@ -451,7 +461,7 @@ public class DataCollection extends Activity implements Camera.PreviewCallback {
             }
             handler.postDelayed(this, 55);
             double[] coordinates = calibration9Point.getXYPoportional(movingAverageX.getCurrentNeg(), movingAverageY.getCurrentNeg(), width, height);
-            textView.setText(""+(5-Math.abs(timerStart - (System.currentTimeMillis()))/1000)+" sec");
+            _dottimer.setBalls(5,(int)(5-Math.abs(timerStart - (System.currentTimeMillis()))/1000));
             drawBallView.setBallPosition(coordinates[0], coordinates[1]);
         }
     }

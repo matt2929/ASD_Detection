@@ -1,3 +1,4 @@
+/*
 package com.example.matthew.austism;
 
 
@@ -19,15 +20,6 @@ public class PicturePicker extends Activity {
     ImageView alertBox;
 
     int index = -1;
-    static int imageIds[] = new int[]{
-            R.drawable.sadoldmanowen,
-            R.drawable.japaneseart,
-            R.drawable.stitch,
-            R.drawable.meeting
-    };
-
-    static boolean[] pictureSelection = new boolean[imageIds.length];
-    int count = imageIds.length;
     // to keep current Index of ImageID array
     int currentIndex = 0;
     private ImageSwitcher simpleImageSwitcher;
@@ -135,4 +127,4 @@ public class PicturePicker extends Activity {
             }
         });
     }
-}
+}*/

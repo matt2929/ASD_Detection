@@ -10,7 +10,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/sadoldmanowen"
+        android:icon="@drawable/pl"
         android:label="ASD Tracker"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
