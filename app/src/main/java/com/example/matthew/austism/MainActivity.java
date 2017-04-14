@@ -8,13 +8,13 @@ import android.view.Window;
 import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
-    Button button;
+    Button button,historyButt;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_main);
-
+        historyButt = (Button) findViewById(R.id.goToHistory);
         button = (Button) findViewById(R.id.startButton);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -23,6 +23,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
         });
+        historyButt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), History.class);
+                startActivity(i);
 
+            }
+        });
     }
 }

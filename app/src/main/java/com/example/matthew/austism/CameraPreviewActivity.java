@@ -244,9 +244,6 @@ public class CameraPreviewActivity extends Activity implements Camera.PreviewCal
             progressBar.setProgress(progressCurent);
 
         } else {
-            if(progressCurent!=0) {
-                progressCurent--;
-            }
             progressBar.setProgress(progressCurent);
             canRecord = false;
             imageView.setImageDrawable(getResources().getDrawable(android.R.drawable.presence_video_busy));

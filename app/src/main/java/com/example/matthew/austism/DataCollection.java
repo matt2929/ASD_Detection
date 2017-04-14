@@ -461,7 +461,7 @@ public class DataCollection extends Activity implements Camera.PreviewCallback {
             }
             handler.postDelayed(this, 55);
             double[] coordinates = calibration9Point.getXYPoportional(movingAverageX.getCurrentNeg(), movingAverageY.getCurrentNeg(), width, height);
-            _dottimer.setBalls(5,(int)(5-Math.abs(timerStart - (System.currentTimeMillis()))/1000));
+            _dottimer.setBalls(5,(int)((5-Math.abs(timerStart - (System.currentTimeMillis()))/1000)-.5));
             drawBallView.setBallPosition(coordinates[0], coordinates[1]);
         }
     }
