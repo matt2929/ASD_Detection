@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/background_dark"
-    tools:context="com.example.matthew.austism.PicturePicker">
+    tools:context="com.example.matthew.austism.Activities.HistoryPicturePicker">
 
     <TextView
         android:id="@+id/editText"

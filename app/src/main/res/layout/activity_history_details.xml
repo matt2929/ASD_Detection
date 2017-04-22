@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_historical_touches"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/background_dark"
+
+    tools:context="com.example.matthew.austism.Activities.HistoryPictureDetails">
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:background="@color/colorPrimary"
+        android:fontFamily="serif"
+        android:text="Historical Gaze"
+        android:textAlignment="center"
+        android:textAllCaps="false"
+        android:textColor="@android:color/background_light"
+        android:textSize="36sp"
+        android:textStyle="normal|bold"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp"/>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView5"
+        android:layout_margin="25dp"
+        android:orientation="horizontal">
+
+        <ScrollView
+            android:id="@+id/scrollView2"
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textView5"
+            android:layout_toStartOf="@+id/showwhereeyeare"
+            android:layout_weight="40"
+            android:fadeScrollbars="false"
+            android:scrollbarSize="5dp"
+            android:scrollbarStyle="insideInset"
+            android:scrollbarThumbVertical="@color/colorPrimary"
+            android:scrollbarTrackVertical="?attr/colorPrimaryDark">
+
+            <LinearLayout
+                android:id="@+id/linearLayout5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/textView5"
+                android:layout_toStartOf="@+id/showwhereeyeare"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/gazeText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:ems="10"
+                    android:inputType="textPersonName"
+                    android:text="Coordinates: [0,0]"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/background_light"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@android:color/background_dark"
+                    android:orientation="horizontal"
+                    android:scaleX=".9"
+                    android:scaleY=".9">
+
+                    <Button
+                        android:id="@+id/gazeStart"
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".33"
+                        android:text="Play"
+                        android:textAllCaps="false"/>
+
+                    <Button
+                        android:id="@+id/gazeStop"
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".33"
+                        android:text="Pause"
+                        android:textAllCaps="false"/>
+
+                    <Button
+                        android:id="@+id/gazeRestart"
+                        android:layout_width="0dip"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".33"
+                        android:text="Restart"
+                        android:textAllCaps="false"/>
+                </LinearLayout>
+
+                <ProgressBar
+                    android:id="@+id/gazeProgress"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+
+                    android:background="@android:color/darker_gray"/>
+
+                <SeekBar
+                    android:id="@+id/seekBarEye"
+                    style="@style/Widget.AppCompat.SeekBar.Discrete"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:max="200"
+                    android:progress="50"/>
+
+                <CheckBox
+                    android:id="@+id/gazeCheckBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:buttonTint="@color/colorAccent"
+                    android:text="Heat Map"
+                    android:textColor="@android:color/background_light"/>
+
+            </LinearLayout>
+
+
+        </ScrollView>
+
+        <RelativeLayout
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/textView5"
+            android:layout_toEndOf="@+id/scrollView2"
+            android:layout_weight="60">
+
+            <ImageView
+                android:id="@+id/showwhereeyeare"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:adjustViewBounds="false"
+                android:contentDescription="view touches"
+                android:cropToPadding="false"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="0dp"/>
+
+            <com.example.matthew.austism.Views.HeatView2
+                android:id="@+id/HeatMap"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:layout_alignParentBottom="true"
+                android:background="@color/colorPrimary"/>
+
+            <com.example.matthew.austism.Views.DrawPointTransparent
+                android:id="@+id/DrawPointEye"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:background="@android:color/transparent"
+                tools:layout_editor_absoluteX="0dp"
+                tools:layout_editor_absoluteY="0dp"/>
+
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>

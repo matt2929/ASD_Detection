@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/background_light"
-    tools:context="com.example.matthew.austism.ReportAnalysis">
+    tools:context="com.example.matthew.austism.Activities.ReportAnalysis">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -46,7 +46,7 @@
                         android:text="@string/risk_of_asd"
                         android:textAlignment="center"
                         android:textColor="@android:color/background_dark"
-                        android:textSize="50sp"/>
+                        android:textSize="35sp"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -65,7 +65,7 @@
                         android:text="@string/low"
                         android:textAlignment="center"
                         android:textColor="@android:color/background_dark"
-                        android:textSize="30sp"/>
+                        android:textSize="25dp"/>
 
                     <TextView
                         android:id="@+id/textView5"
@@ -76,7 +76,7 @@
                         android:text="@string/medium"
                         android:textAlignment="center"
                         android:textColor="@android:color/background_dark"
-                        android:textSize="30sp"/>
+                        android:textSize="25dp"/>
 
                     <TextView
                         android:id="@+id/textView4"
@@ -87,13 +87,13 @@
                         android:text="@string/high"
                         android:textAlignment="center"
                         android:textColor="@android:color/background_dark"
-                        android:textSize="30sp"/>
+                        android:textSize="25dp"/>
                 </LinearLayout>
             </LinearLayout>
 
             <view
                 android:id="@+id/riskreport"
-                class="com.example.matthew.austism.DrawLevelOfRisk"
+                class="com.example.matthew.austism.Views.DrawLevelOfRisk"
                 id="@+id/view"
                 layout_centerHorizontal="true"
                 layout_centerVertical="true"
@@ -201,7 +201,7 @@
                                     android:layout_weight="1"
                                     android:background="@android:color/background_light"
                                     android:text="@string/cognative_score"
-                                    android:textAlignment="textEnd"
+                                    android:textAlignment="center"
                                     android:textColor="@android:color/background_dark"
                                     android:textSize="24sp"/>
                             </LinearLayout>
@@ -227,7 +227,7 @@
                                     android:layout_weight="1"
                                     android:background="@android:color/background_light"
                                     android:text="@string/social_score"
-                                    android:textAlignment="textEnd"
+                                    android:textAlignment="center"
                                     android:textColor="@android:color/background_dark"
                                     android:textSize="24sp"/>
                             </LinearLayout>
@@ -253,7 +253,7 @@
                                     android:layout_weight="1"
                                     android:background="@android:color/background_light"
                                     android:text="@string/emotional_score"
-                                    android:textAlignment="textEnd"
+                                    android:textAlignment="center"
                                     android:textColor="@android:color/background_dark"
                                     android:textSize="24sp"/>
                             </LinearLayout>
@@ -279,7 +279,7 @@
                                     android:layout_weight="1"
                                     android:background="@android:color/background_light"
                                     android:text="@string/behavioral_score"
-                                    android:textAlignment="textEnd"
+                                    android:textAlignment="center"
                                     android:textColor="@android:color/background_dark"
                                     android:textSize="24sp"/>
                             </LinearLayout>

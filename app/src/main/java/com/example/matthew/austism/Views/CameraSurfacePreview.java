@@ -6,7 +6,7 @@
  * @file: CameraSurfacePreview.java
  */
 
-package com.example.matthew.austism;
+package com.example.matthew.austism.Views;
 
 import android.annotation.TargetApi;
 import android.content.Context;

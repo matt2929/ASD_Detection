@@ -6,7 +6,7 @@
  * @file: CameraPreviewActivity.java
  */
 
-package com.example.matthew.austism;
+package com.example.matthew.austism.Activities;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -35,11 +35,19 @@ import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.example.matthew.austism.Utilities.Calibration9Point;
+import com.example.matthew.austism.Views.CameraSurfacePreview;
+import com.example.matthew.austism.Views.DrawView;
+import com.example.matthew.austism.Utilities.MovingAverage;
+import com.example.matthew.austism.Views.NinePointCalibrationView;
+import com.example.matthew.austism.R;
 import com.qualcomm.snapdragon.sdk.face.FaceData;
 import com.qualcomm.snapdragon.sdk.face.FacialProcessing;
 import com.qualcomm.snapdragon.sdk.face.FacialProcessing.FP_MODES;
@@ -53,8 +61,9 @@ public class CameraPreviewActivity extends Activity implements Camera.PreviewCal
     // Global Variables Required
 
     Camera cameraObj;
+    static boolean cameraDataTaken = false;
     FrameLayout preview;
-
+    static boolean cameraState = false;
     FacialProcessing faceProc;
     FaceData[] faceArray = null;// Array in which all the face data values will be returned for each face detected.
     View myView;
@@ -118,7 +127,7 @@ public class CameraPreviewActivity extends Activity implements Camera.PreviewCal
         record = (Button) findViewById(R.id.Record);
         restartCalibration = (Button) findViewById(R.id.restartcalibration);
         record.setTextColor(Color.GREEN);
-
+        checkBox = (CheckBox) findViewById(R.id.checkBoxOrient);
         preview = (FrameLayout) findViewById(R.id.camera_preview);
         coordinateText = (TextView) findViewById(R.id.coordinateText);
         imageView = (ImageView) findViewById(R.id.imageView);
@@ -138,7 +147,7 @@ public class CameraPreviewActivity extends Activity implements Camera.PreviewCal
         fpFeatureSupported = FacialProcessing
                 .isFeatureSupported(FacialProcessing.FEATURE_LIST.FEATURE_FACIAL_PROCESSING);
 
-        if (fpFeatureSupported && faceProc == null) {
+        if ( fpFeatureSupported && faceProc == null ) {
             Log.e("TAG", "Feature is supported");
             faceProc = FacialProcessing.getInstance();  // Calling the Facial Processing Constructor.
             faceProc.setProcessingMode(FP_MODES.FP_MODE_VIDEO);
@@ -158,7 +167,7 @@ public class CameraPreviewActivity extends Activity implements Camera.PreviewCal
 
         preview = (FrameLayout) findViewById(R.id.camera_preview);
         preview.removeView(mPreview);
-         preview.addView(mPreview);
+        preview.addView(mPreview);
         cameraObj.setPreviewCallback(CameraPreviewActivity.this);
 
         orientationListener();
@@ -167,8 +176,8 @@ public class CameraPreviewActivity extends Activity implements Camera.PreviewCal
         record.setOnClickListener(new OnClickListener() {
                                       @Override
                                       public void onClick(View v) {
-                                          if (canRecord) {
-                                              if (progressCurent != progressMax) {
+                                          if ( canRecord ) {
+                                              if ( progressCurent != progressMax ) {
 
                                               } else {
                                                   calibratingView();
@@ -179,11 +188,19 @@ public class CameraPreviewActivity extends Activity implements Camera.PreviewCal
                                       }
                                   }
         );
+        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                cameraState = isChecked;
+
+            }
+        });
         restartCalibration.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent i = new Intent(getApplicationContext(), DataCollection.class);
-                startActivity(i);     }
+                startActivity(i);
+            }
         });
 
     }
@@ -216,7 +233,7 @@ public class CameraPreviewActivity extends Activity implements Camera.PreviewCal
             }
         };
 
-        if (orientationEventListener.canDetectOrientation()) {
+        if ( orientationEventListener.canDetectOrientation() ) {
             orientationEventListener.enable();
         }
 
@@ -236,10 +253,10 @@ public class CameraPreviewActivity extends Activity implements Camera.PreviewCal
     public void setUI(int numFaces, int smileValue, int leftEyeBlink, int rightEyeBlink, int faceRollValue,
                       int faceYawValue, int facePitchValue, PointF gazePointValue, int horizontalGazeAngle, int verticalGazeAngle) {
 
-        if (numFaces > 0) {
+        if ( numFaces > 0 ) {
             canRecord = true;
             imageView.setImageDrawable(getResources().getDrawable(android.R.drawable.presence_video_online));
-            if (progressCurent + 1 <= progressMax)
+            if ( progressCurent + 1 <= progressMax )
                 progressCurent++;
             progressBar.setProgress(progressCurent);
 
@@ -249,13 +266,13 @@ public class CameraPreviewActivity extends Activity implements Camera.PreviewCal
             imageView.setImageDrawable(getResources().getDrawable(android.R.drawable.presence_video_busy));
 
         }
-        if (gazePointValue != null && canRecord) {
+        if ( gazePointValue != null && canRecord ) {
             double x = Math.round(gazePointValue.x * 100.0) / 100.0;// Rounding the gaze point value.
             double y = Math.round(gazePointValue.y * 100.0) / 100.0;
             movingAverageX.update(x);
             movingAverageY.update(y);
-            if (recordingMovement) {
-                if (ninePointCalibration.getCurrentDot() != -1) {
+            if ( recordingMovement ) {
+                if ( ninePointCalibration.getCurrentDot() != -1 ) {
                 }
             }
         }
@@ -275,11 +292,11 @@ public class CameraPreviewActivity extends Activity implements Camera.PreviewCal
     @Override
     protected void onResume() {
         super.onResume();
-        if (cameraObj != null) {
+        if ( cameraObj != null ) {
             stopCamera();
         }
 
-        if (!cameraSwitch)
+        if ( !cameraSwitch )
             startCamera(FRONT_CAMERA_INDEX);
         else
             startCamera(BACK_CAMERA_INDEX);
@@ -289,7 +306,7 @@ public class CameraPreviewActivity extends Activity implements Camera.PreviewCal
      * This is a function to stop the camera preview. Release the appropriate objects for later use.
      */
     public void stopCamera() {
-        if (cameraObj != null) {
+        if ( cameraObj != null ) {
             cameraObj.stopPreview();
             cameraObj.setPreviewCallback(null);
             preview.removeView(mPreview);
@@ -307,7 +324,7 @@ public class CameraPreviewActivity extends Activity implements Camera.PreviewCal
      */
     public void startCamera(int cameraIndex) {
 
-        if (fpFeatureSupported && faceProc == null) {
+        if ( fpFeatureSupported && faceProc == null ) {
 
             Log.e("TAG", "Feature is supported");
             faceProc = FacialProcessing.getInstance();// Calling the Facial Processing Constructor.
@@ -342,10 +359,16 @@ public class CameraPreviewActivity extends Activity implements Camera.PreviewCal
     @Override
     public void onPreviewFrame(byte[] data, Camera arg1) {
 
-
-        presentOrientation = (90 * Math.round(deviceOrientation / 90)) % 360 - 90;
-        int dRotation = display.getRotation()-90;
+        presentOrientation = (90 * Math.round(deviceOrientation / 90)) % 360;
+        int dRotation = display.getRotation();
         FacialProcessing.PREVIEW_ROTATION_ANGLE angleEnum = FacialProcessing.PREVIEW_ROTATION_ANGLE.ROT_0;
+
+
+        if ( cameraState ) {
+            presentOrientation = ((90 * Math.round(deviceOrientation / 90)) % 360);
+            dRotation = (display.getRotation() + 1) % 4;
+            angleEnum = FacialProcessing.PREVIEW_ROTATION_ANGLE.ROT_90;
+        }
 
         switch (dRotation) {
             case 0:
@@ -354,21 +377,31 @@ public class CameraPreviewActivity extends Activity implements Camera.PreviewCal
                 break;
 
             case 1:
+                if ( cameraState ) {
+
+                }
                 displayAngle = 0;
                 angleEnum = PREVIEW_ROTATION_ANGLE.ROT_0;
                 break;
 
             case 2:
-                // This case is never reached.
+                if ( cameraState ) {
+
+                }
+                displayAngle = 270;
+                angleEnum = PREVIEW_ROTATION_ANGLE.ROT_270;
                 break;
 
             case 3:
+                if ( cameraState ) {
+
+                }
                 displayAngle = 180;
                 angleEnum = PREVIEW_ROTATION_ANGLE.ROT_180;
                 break;
         }
 
-        if (faceProc == null) {
+        if ( faceProc == null ) {
             faceProc = FacialProcessing.getInstance();
         }
 
@@ -378,21 +411,21 @@ public class CameraPreviewActivity extends Activity implements Camera.PreviewCal
         surfaceHeight = mPreview.getHeight();
 
         // Landscape mode - front camera
-        if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && !cameraSwitch) {
+        if ( this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE && !cameraSwitch ) {
             faceProc.setFrame(data, previewSize.width, previewSize.height, true, angleEnum);
             cameraObj.setDisplayOrientation(displayAngle);
             landScapeMode = true;
         }
         // landscape mode - back camera
-        else if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE
-                && cameraSwitch) {
+        else if ( this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE
+                && cameraSwitch ) {
             faceProc.setFrame(data, previewSize.width, previewSize.height, false, angleEnum);
             cameraObj.setDisplayOrientation(displayAngle);
             landScapeMode = true;
         }
         // Portrait mode - front camera
-        else if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT
-                && !cameraSwitch) {
+        else if ( this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT
+                && !cameraSwitch ) {
             faceProc.setFrame(data, previewSize.width, previewSize.height, true, angleEnum);
             cameraObj.setDisplayOrientation(displayAngle);
             landScapeMode = false;
@@ -406,9 +439,9 @@ public class CameraPreviewActivity extends Activity implements Camera.PreviewCal
 
         int numFaces = faceProc.getNumFaces();
 
-        if (numFaces == 0) {
+        if ( numFaces == 0 ) {
             Log.d("TAG", "No Face Detected");
-            if (drawView != null) {
+            if ( drawView != null ) {
                 preview.removeView(drawView);
 
                 drawView = new DrawView(this, null, false, 0, 0, null, landScapeMode);
@@ -426,10 +459,10 @@ public class CameraPreviewActivity extends Activity implements Camera.PreviewCal
             // faceArray = faceProc.getFaceData(); // Calling getFaceData() alone will give you all facial data except the
             // face
             // contour. Face Contour might be a heavy operation, it is recommended that you use it only when you need it.
-            if (faceArray == null) {
+            if ( faceArray == null ) {
                 Log.e("TAG", "Face array is null");
             } else {
-                if (faceArray[0].leftEyeObj == null) {
+                if ( faceArray[0].leftEyeObj == null ) {
                     Log.e(TAG, "Eye Object NULL");
                 } else {
                     Log.e(TAG, "Eye Object not NULL");
@@ -440,16 +473,18 @@ public class CameraPreviewActivity extends Activity implements Camera.PreviewCal
                 drawView = new DrawView(this, faceArray, true, surfaceWidth, surfaceHeight, cameraObj, landScapeMode);
                 preview.addView(drawView);
 
-                for (int j = 0; j < numFaces; j++) {
-                    smileValue = faceArray[j].getSmileValue();
-                    leftEyeBlink = faceArray[j].getLeftEyeBlink();
-                    rightEyeBlink = faceArray[j].getRightEyeBlink();
-                    faceRollValue = faceArray[j].getRoll();
-                    gazePointValue = faceArray[j].getEyeGazePoint();
-                    pitch = faceArray[j].getPitch();
-                    yaw = faceArray[j].getYaw();
-                    horizontalGaze = faceArray[j].getEyeHorizontalGazeAngle();
-                    verticalGaze = faceArray[j].getEyeVerticalGazeAngle();
+                for ( int j = 0; j < numFaces; j++ ) {
+                     if ( faceArray.length != 0 ) {
+                        smileValue = faceArray[j].getSmileValue();
+                        leftEyeBlink = faceArray[j].getLeftEyeBlink();
+                        rightEyeBlink = faceArray[j].getRightEyeBlink();
+                        faceRollValue = faceArray[j].getRoll();
+                        gazePointValue = faceArray[j].getEyeGazePoint();
+                        pitch = faceArray[j].getPitch();
+                        yaw = faceArray[j].getYaw();
+                        horizontalGaze = faceArray[j].getEyeHorizontalGazeAngle();
+                        verticalGaze = faceArray[j].getEyeVerticalGazeAngle();
+                    }
                 }
                 setUI(numFaces, smileValue, leftEyeBlink, rightEyeBlink, faceRollValue, yaw, pitch, gazePointValue,
                         horizontalGaze, verticalGaze);
@@ -472,8 +507,8 @@ public class CameraPreviewActivity extends Activity implements Camera.PreviewCal
             int height = metrics.heightPixels;
             counter++;
             ninePointCalibration.invalidate();
-            if (recordingMovement) {
-                if (progressCurent < (progressMax * .75)) {
+            if ( recordingMovement ) {
+                if ( progressCurent < (progressMax * .75) ) {
                     //Calibration is running but face detection has become poor in quality
                     ninePointCalibration.forgetTime();
                     progressBar.setVisibility(View.VISIBLE);
@@ -482,12 +517,12 @@ public class CameraPreviewActivity extends Activity implements Camera.PreviewCal
                     progressBar.setVisibility(View.INVISIBLE);
                     calibration9Point.recordCalibration(movingAverageX.getCurrentNeg(), movingAverageY.getCurrentNeg(), ninePointCalibration.getCurrentDot());
                 }
-                if (!ninePointCalibration.isRunningCalibration()) {
+                if ( !ninePointCalibration.isRunningCalibration() ) {
                     //calibration finished
                     finishedCalibratingView();
                 }
             } else {
-                if (calibrationAvailable) {
+                if ( calibrationAvailable ) {
                     //done calibrating currently drawing where user is looking
                     double[] coordinates = calibration9Point.getXYPoportional(movingAverageX.getCurrentNeg(), movingAverageY.getCurrentNeg(), width, height);
                     ninePointCalibration.setBallPosition(coordinates[0], coordinates[1]);

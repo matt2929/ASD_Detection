@@ -11,25 +11,29 @@
     <application
         android:allowBackup="true"
         android:icon="@drawable/pl"
-        android:label="ASD Tracker"
+        android:label="ASD Analysis"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".Activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".CameraPreviewActivity"/>
+        <activity android:name=".Activities.CameraPreviewActivity"/>
         <activity android:name=".PicturePicker">
         </activity>
-        <activity android:name=".DataCollection">
+        <activity android:name=".Activities.DataCollection">
         </activity>
-        <activity android:name=".ReportAnalysis">
+        <activity android:name=".Activities.ReportAnalysis">
         </activity>
-        <activity android:name=".History">
+        <activity android:name=".Activities.History">
+        </activity>
+        <activity android:name=".Activities.HistoryPictureDetails">
+        </activity>
+        <activity android:name=".Activities.HistoryPicturePicker">
         </activity>
     </application>
 

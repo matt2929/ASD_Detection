@@ -1,4 +1,4 @@
-package com.example.matthew.austism;
+package com.example.matthew.austism.Views;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -11,24 +11,24 @@ import android.widget.RelativeLayout;
  * Created by Matthew on 4/11/2017.
  */
 
-public class dottimer extends RelativeLayout {
+public class DotTimer extends RelativeLayout {
     private Paint paintGray, paintGreen;
     int numBalls=0,ballsLit=0;
     private float radius = 25;
 
 
 
-    public dottimer(Context context) {
+    public DotTimer(Context context) {
         super(context);
         setUp();
     }
 
-    public dottimer(Context context, AttributeSet attrs) {
+    public DotTimer(Context context, AttributeSet attrs) {
         super(context, attrs);
         setUp();
     }
 
-    public dottimer(Context context, AttributeSet attrs, int defStyleAttr) {
+    public DotTimer(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setUp();
     }

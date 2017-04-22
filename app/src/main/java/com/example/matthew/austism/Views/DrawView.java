@@ -6,7 +6,7 @@
      * @file: DrawView.java
      */
 
-package com.example.matthew.austism;
+package com.example.matthew.austism.Views;
 
 import android.content.Context;
 import android.graphics.Canvas;

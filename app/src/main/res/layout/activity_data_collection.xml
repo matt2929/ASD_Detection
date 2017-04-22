@@ -7,84 +7,118 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/background_dark"
-    tools:context="com.example.matthew.austism.DataCollection">
+    tools:context="com.example.matthew.austism.Activities.DataCollection">
 
-    <ImageSwitcher
-        android:id="@+id/collectionImageSwitcher"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:layout_marginRight="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_alignParentStart="true"
-        android:layout_toStartOf="@+id/facialPreview">
-
-    </ImageSwitcher>
-
-    <Button
-        android:id="@+id/startDataCollection"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginLeft="8dp"
-        android:background="@android:drawable/ic_media_play"
-        tools:layout_editor_absoluteY="182dp"/>
-
-    <view
-        android:id="@+id/drawBallView"
-        class="com.example.matthew.austism.DrawBallView"
-        id="@+id/view"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/transparent"
-        android:layout_toStartOf="@+id/facialPreview"/>
+        android:orientation="horizontal">
 
-    <FrameLayout
-        android:id="@+id/facialPreview"
-        android:layout_width="300sp"
-        android:layout_height="170sp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true">
+        <RelativeLayout
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_weight=".75">
 
-    </FrameLayout>
+            <ImageSwitcher
+                android:id="@+id/collectionImageSwitcher"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="8dp"
+                android:layout_toStartOf="@+id/facialPreview"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
-    <TextView
-        android:id="@+id/smileText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/collectionImageSwitcher"
-        android:text="TextView"
-        android:textAlignment="center"
-        android:textColor="@android:color/background_light"
-        android:textSize="36sp"/>
+            </ImageSwitcher>
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/smileText"
-        android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/collectionImageSwitcher"
-        android:text="Smile Value: "
-        android:textAlignment="center"
-        android:textColor="@android:color/white"
-        android:textSize="36sp"/>
+            <view
+                android:id="@+id/drawBallView"
+                class="com.example.matthew.austism.Views.DrawBallView"
+                id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_toStartOf="@+id/facialPreview"
+                android:background="@android:color/transparent"
+                android:layout_alignEnd="@+id/collectionImageSwitcher"/>
 
-    <view
-        android:id="@+id/timerData"
-        class="com.example.matthew.austism.dottimer"
-        id="@+id/view"
-        layout_below="@+id/textView7"
-        layout_marginEnd="94dp"
-        layout_toStartOf="@+id/startDataCollection"
-        android:layout_width="wrap_content"
-        android:layout_height="100dp"
-        android:layout_above="@+id/textView3"
-        android:layout_alignParentEnd="true"
-        android:layout_toEndOf="@+id/collectionImageSwitcher"/>
+            <Button
+                android:id="@+id/startDataCollection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="8dp"
+                android:background="@android:drawable/ic_media_play"
+                tools:layout_editor_absoluteY="182dp"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dip"
+            android:layout_height="match_parent"
+            android:layout_alignParentStart="true"
+            android:layout_weight=".25">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <FrameLayout
+                    android:id="@+id/facialPreview"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dip"
+                    android:layout_above="@+id/timerData"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_weight="1">
+
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dip"
+                    android:layout_above="@+id/smileText"
+                    android:layout_alignParentEnd="true"
+                    android:layout_toEndOf="@+id/collectionImageSwitcher"
+                    android:layout_weight="1"
+                    android:text="Smile Value: "
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="36sp"/>
+
+                <TextView
+                    android:id="@+id/smileText"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dip"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentEnd="true"
+                    android:layout_toEndOf="@+id/collectionImageSwitcher"
+                    android:layout_weight="1"
+                    android:text="TextView"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="36sp"/>
+
+                <view
+                    android:id="@+id/timerData"
+                    class="com.example.matthew.austism.Views.DotTimer"
+                    id="@+id/view"
+                    layout_below="@+id/textView7"
+                    layout_marginEnd="94dp"
+                    layout_toStartOf="@+id/startDataCollection"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dip"
+                    android:layout_above="@+id/textView3"
+                    android:layout_alignParentEnd="true"
+                    android:layout_toEndOf="@+id/collectionImageSwitcher"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
 
 </RelativeLayout>

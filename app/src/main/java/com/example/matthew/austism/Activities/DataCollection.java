@@ -1,12 +1,10 @@
-package com.example.matthew.austism;
+package com.example.matthew.austism.Activities;
 
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.PointF;
 import android.graphics.PorterDuff;
 import android.hardware.Camera;
@@ -21,42 +19,50 @@ import android.view.OrientationEventListener;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
+import com.example.matthew.austism.Utilities.GazeSession;
+import com.example.matthew.austism.Utilities.SaveData;
+import com.example.matthew.austism.Views.DrawBallView;
+import com.example.matthew.austism.Views.DrawView;
+import com.example.matthew.austism.Utilities.MovingAverage;
+import com.example.matthew.austism.Views.NinePointCalibrationView;
+import com.example.matthew.austism.R;
+import com.example.matthew.austism.Utilities.Calibration9Point;
+import com.example.matthew.austism.Views.CameraSurfacePreview;
+import com.example.matthew.austism.Views.DotTimer;
 import com.qualcomm.snapdragon.sdk.face.FaceData;
 import com.qualcomm.snapdragon.sdk.face.FacialProcessing;
 
 import java.util.Calendar;
 import java.util.EnumSet;
 
+import static com.example.matthew.austism.Activities.CameraPreviewActivity.cameraState;
+
 
 public class DataCollection extends Activity implements Camera.PreviewCallback {
 
+    private boolean complete = false;
     private TextView smileText;
     Button btnStart;
-    dottimer _dottimer;
+    DotTimer _dottimer;
     int pictureIds[] = new int[]{
-            R.drawable.threekids,
-            R.drawable.animalsbackgroundpreview5,
-            R.drawable.twogirls,
-            R.drawable.b13,
-            R.drawable.pexels_photo_58997,
-
-            R.drawable.cutedeer,
-            R.drawable.twoboys,
-           };
-
+            R.drawable.three_girls,
+            R.drawable.hummingbird,
+            R.drawable.reading,
+            R.drawable.cat,
+            R.drawable.dog,
+            R.drawable.deer,
+            R.drawable.two_boys,
+    };
+    SaveData _SaveData;
     static boolean[] selectedPicture = new boolean[]{
-
-            true,true,true,true,true,true,true};
-
+            true, true, true, true, true, true, true };
     private ImageSwitcher simpleImageSwitcher;
     int currentIndex = -1;
     int delay = 5000;
@@ -89,7 +95,6 @@ public class DataCollection extends Activity implements Camera.PreviewCallback {
     boolean fpFeatureSupported = false;
     static boolean cameraSwitch = false;    // Boolean to check if the camera is switched to back camera or no.
     boolean landScapeMode = false;      // Boolean to check if the phone orientation is in landscape mode or portrait mode.
-
     int cameraIndex;// Integer to keep track of which camera is open.
     int smileValue = 0;
     int leftEyeBlink = 0;
@@ -120,7 +125,7 @@ public class DataCollection extends Activity implements Camera.PreviewCallback {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data_collection);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
-        smileText=(TextView) findViewById(R.id.smileText);
+        smileText = (TextView) findViewById(R.id.smileText);
         smileText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -128,7 +133,10 @@ public class DataCollection extends Activity implements Camera.PreviewCallback {
                 startActivity(i);
             }
         });
-        _dottimer = (dottimer) findViewById(R.id.timerData);
+        if ( CameraPreviewActivity.cameraState ) {
+            _SaveData = new SaveData(this);
+        }
+        _dottimer = (DotTimer) findViewById(R.id.timerData);
         handler2 = new Handler();
         btnStart = (Button) findViewById(R.id.startDataCollection);
         myView = new View(DataCollection.this);
@@ -214,7 +222,7 @@ public class DataCollection extends Activity implements Camera.PreviewCallback {
 
     public void setUI(int numFaces, int smileValue, int leftEyeBlink, int rightEyeBlink, int faceRollValue,
                       int faceYawValue, int facePitchValue, PointF gazePointValue, int horizontalGazeAngle, int verticalGazeAngle) {
-        smileText.setText(""+smileValue);
+        smileText.setText("" + smileValue);
         if ( numFaces > 0 ) {
             canRecord = true;
         } else {
@@ -311,26 +319,32 @@ public class DataCollection extends Activity implements Camera.PreviewCallback {
     @Override
     public void onPreviewFrame(byte[] data, Camera arg1) {
 
-        presentOrientation = (90 * Math.round(deviceOrientation / 90)) % 360 - 90;
-        int dRotation = display.getRotation()-90;
+        presentOrientation = (90 * Math.round(deviceOrientation / 90)) % 360;
+        int dRotation = display.getRotation();
         FacialProcessing.PREVIEW_ROTATION_ANGLE angleEnum = FacialProcessing.PREVIEW_ROTATION_ANGLE.ROT_0;
 
+        if ( cameraState ) {
+            presentOrientation = ((90 * Math.round(deviceOrientation / 90)) % 360);
+            dRotation = (display.getRotation() + 1) % 4;
+            angleEnum = FacialProcessing.PREVIEW_ROTATION_ANGLE.ROT_90;
+        }
         switch (dRotation) {
             case 0:
                 displayAngle = 90;
                 angleEnum = FacialProcessing.PREVIEW_ROTATION_ANGLE.ROT_90;
                 break;
-
             case 1:
                 displayAngle = 0;
                 angleEnum = FacialProcessing.PREVIEW_ROTATION_ANGLE.ROT_0;
                 break;
 
             case 2:
-                // This case is never reached.
+                displayAngle = 270;
+                angleEnum = FacialProcessing.PREVIEW_ROTATION_ANGLE.ROT_270;
                 break;
 
             case 3:
+
                 displayAngle = 180;
                 angleEnum = FacialProcessing.PREVIEW_ROTATION_ANGLE.ROT_180;
                 break;
@@ -409,15 +423,24 @@ public class DataCollection extends Activity implements Camera.PreviewCallback {
                 preview.addView(drawView);
 
                 for ( int j = 0; j < numFaces; j++ ) {
-                    smileValue = faceArray[j].getSmileValue();
-                    leftEyeBlink = faceArray[j].getLeftEyeBlink();
-                    rightEyeBlink = faceArray[j].getRightEyeBlink();
-                    faceRollValue = faceArray[j].getRoll();
-                    gazePointValue = faceArray[j].getEyeGazePoint();
-                    pitch = faceArray[j].getPitch();
-                    yaw = faceArray[j].getYaw();
-                    horizontalGaze = faceArray[j].getEyeHorizontalGazeAngle();
-                    verticalGaze = faceArray[j].getEyeVerticalGazeAngle();
+                    if ( numFaces != 0 )
+                        smileValue = faceArray[j].getSmileValue();
+                    if ( numFaces != 0 )
+                        leftEyeBlink = faceArray[j].getLeftEyeBlink();
+                    if ( numFaces != 0 )
+                        rightEyeBlink = faceArray[j].getRightEyeBlink();
+                    if ( numFaces != 0 )
+                        faceRollValue = faceArray[j].getRoll();
+                    if ( numFaces != 0 )
+                        gazePointValue = faceArray[j].getEyeGazePoint();
+                    if ( numFaces != 0 )
+                        pitch = faceArray[j].getPitch();
+                    if ( numFaces != 0 )
+                        yaw = faceArray[j].getYaw();
+                    if ( numFaces != 0 )
+                        horizontalGaze = faceArray[j].getEyeHorizontalGazeAngle();
+                    if ( numFaces != 0 )
+                        verticalGaze = faceArray[j].getEyeVerticalGazeAngle();
                 }
                 setUI(numFaces, smileValue, leftEyeBlink, rightEyeBlink, faceRollValue, yaw, pitch, gazePointValue,
                         horizontalGaze, verticalGaze);
@@ -438,30 +461,42 @@ public class DataCollection extends Activity implements Camera.PreviewCallback {
         public void run() {
             int width = metrics.widthPixels;
             int height = metrics.heightPixels;
-           if ( currentIndex < pictureIds.length ) {
+            if ( currentIndex < pictureIds.length ) {
                 if ( Math.abs(timerStart - System.currentTimeMillis()) > delay ) {
-                    if (pause) {
+                    if ( pause ) {
                         timerStart = System.currentTimeMillis();
                         currentIndex++;
                         while ( currentIndex != pictureIds.length && !selectedPicture[currentIndex] )
                             currentIndex++;
                         if ( currentIndex == pictureIds.length ) {
+                            if ( cameraState ) {
+                                _SaveData.saveSession(getApplicationContext());
+                            }
                             simpleImageSwitcher.setImageResource(android.R.drawable.screen_background_dark_transparent);
+                            complete = true;
                         } else {
                             simpleImageSwitcher.setImageResource(pictureIds[currentIndex]);
                         }
-                        pause=!pause;
+                        pause = !pause;
 
-                    }else{
-                        pause=!pause;
+                    } else {
+                        if ( cameraState ) {
+                            _SaveData.savePage(pictureIds[currentIndex]);
+                        }
+                        pause = !pause;
                         simpleImageSwitcher.setImageResource(android.R.drawable.screen_background_dark_transparent);
                     }
                     drawBallView.reset();
                 }
             }
-            handler.postDelayed(this, 55);
+            if ( !complete ) {
+                handler.postDelayed(this, 55);
+            }
             double[] coordinates = calibration9Point.getXYPoportional(movingAverageX.getCurrentNeg(), movingAverageY.getCurrentNeg(), width, height);
-            _dottimer.setBalls(5,(int)((5-Math.abs(timerStart - (System.currentTimeMillis()))/1000)-.5));
+            if ( cameraState ) {
+                _SaveData.saveGazePoint((float) coordinates[0], (float) coordinates[1]);
+            }
+            _dottimer.setBalls(5, (int) ((5 - Math.abs(timerStart - (System.currentTimeMillis())) / 1000) - .5));
             drawBallView.setBallPosition(coordinates[0], coordinates[1]);
         }
     }

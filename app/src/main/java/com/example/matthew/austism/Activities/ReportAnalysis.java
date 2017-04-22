@@ -1,23 +1,25 @@
-package com.example.matthew.austism;
+package com.example.matthew.austism.Activities;
 
 import android.graphics.Color;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.matthew.austism.R;
+import com.example.matthew.austism.Views.DrawLevelOfRisk;
 import com.jjoe64.graphview.GraphView;
 import com.jjoe64.graphview.ValueDependentColor;
 import com.jjoe64.graphview.series.BarGraphSeries;
 import com.jjoe64.graphview.series.DataPoint;
 
-import java.util.ArrayList;
-
 public class ReportAnalysis extends AppCompatActivity {
     DrawLevelOfRisk drawLevelOfRisk;
-    TextView textView;
+    TextView textView, textView2, textView3, textView4, textView5, textView6, textView7, textView8, textView9, textView10;
     double risk = 0;
+    TextView[] textViews;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +27,17 @@ public class ReportAnalysis extends AppCompatActivity {
 
         setContentView(R.layout.activity_report_analysis);
         textView = (TextView) findViewById(R.id.riskfactortext);
+        textView2 = (TextView) findViewById(R.id.textView4);
+        textView3 = (TextView) findViewById(R.id.textView5);
+        textView4 = (TextView) findViewById(R.id.textView6);
+        textView5 = (TextView) findViewById(R.id.textView2);
+        textView6 = (TextView) findViewById(R.id.textView8);
+        textView7 = (TextView) findViewById(R.id.textView9);
+        textView8 = (TextView) findViewById(R.id.textView10);
+        textView9 = (TextView) findViewById(R.id.textView11);
+        textView10 = (TextView) findViewById(R.id.textView12);
+
+        textViews = new TextView[]{ textView, textView2, textView3, textView4, textView5, textView6, textView7, textView8, textView9, textView10 };
         GraphView graph = (GraphView) findViewById(R.id.graph);
         BarGraphSeries<DataPoint> series = new BarGraphSeries<>(new DataPoint[]{
                 new DataPoint(1, 6),
@@ -64,11 +77,11 @@ public class ReportAnalysis extends AppCompatActivity {
             public int get(DataPoint data) {
                 if ( data.getX() == 1 ) {
                     button1.setBackgroundColor(Color.rgb((int) data.getX() * 144 / 4, (int) Math.abs(data.getY() * 44 / 6), 100));
-                }else if( data.getX() == 2 ){
+                } else if ( data.getX() == 2 ) {
                     button2.setBackgroundColor(Color.rgb((int) data.getX() * 144 / 4, (int) Math.abs(data.getY() * 44 / 6), 100));
-                }else if( data.getX() == 3 ){
+                } else if ( data.getX() == 3 ) {
                     button3.setBackgroundColor(Color.rgb((int) data.getX() * 144 / 4, (int) Math.abs(data.getY() * 44 / 6), 100));
-                }else if( data.getX() == 4 ){
+                } else if ( data.getX() == 4 ) {
                     button4.setBackgroundColor(Color.rgb((int) data.getX() * 144 / 4, (int) Math.abs(data.getY() * 44 / 6), 100));
                 }
                 return Color.rgb((int) data.getX() * 144 / 4, (int) Math.abs(data.getY() * 44 / 6), 100);
@@ -93,5 +106,24 @@ public class ReportAnalysis extends AppCompatActivity {
         drawLevelOfRisk.invalidate();
     }
 
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        float x1 = 0, x2 = 0, y1 = 0, y2 = 1;
+        if ( event.getAction() == MotionEvent.ACTION_MOVE ) {
+            if ( event.getPointerCount() == 2 ) {
+                x1 = event.getX(0);
+                x2 = event.getX(1);
+                y1 = event.getY(0);
+                y2 = event.getY(1);
 
+                double value = Math.pow(Math.pow((x1 - x2), 2) + Math.pow((y1 - y2), 2), .5) / 20;
+                for ( TextView t : textViews ) {
+
+                    t.setTextSize((float) value);
+
+                }
+            }
+        }
+        return super.onTouchEvent(event);
+    }
 }

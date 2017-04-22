@@ -1,4 +1,4 @@
-package com.example.matthew.austism;
+package com.example.matthew.austism.Views;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -6,6 +6,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
+
+import com.example.matthew.austism.Utilities.GazeSession;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -16,7 +19,7 @@ import java.util.Random;
  * Created by Matthew on 3/19/2017.
  */
 
-public class HeatView extends RelativeLayout {
+public class HeatView2 extends RelativeLayout {
     private Paint paint;
     private int widthTile = 15, heightTile = 15;
     private HashMap<String, Integer> trackHeat = new HashMap<>();
@@ -24,17 +27,17 @@ public class HeatView extends RelativeLayout {
     Integer[] colors = new Integer[]{ Color.TRANSPARENT, Color.argb(200,205,237,26), Color.argb(200,237,181,26), Color.argb(200,255,130,26), Color.argb(200,255,49,26) };
     public boolean ON = false;
     float width,height;
-    public HeatView(Context context) {
+    public HeatView2(Context context) {
         super(context);
         setUp();
     }
 
-    public HeatView(Context context, AttributeSet attrs) {
+    public HeatView2(Context context, AttributeSet attrs) {
         super(context, attrs);
         setUp();
     }
 
-    public HeatView(Context context, AttributeSet attrs, int defStyleAttr) {
+    public HeatView2(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         setUp();
     }
@@ -75,11 +78,11 @@ public class HeatView extends RelativeLayout {
     }
 
     public void init(float width, float height) {
-        ArrayList<ReadingSession.Touch> touches = new ArrayList<>();
+        ArrayList<GazeSession.Touch> touches = new ArrayList<>();
         Random generator = new Random();
         for(int i=0;i<75;i++){
             Calendar calendar = Calendar.getInstance();
-            touches.add(new ReadingSession.Touch(calendar,(float)generator.nextGaussian()*150+960,(float)generator.nextGaussian()*100+540,true));
+            touches.add(new GazeSession.Touch((float)generator.nextGaussian()*550+960,(float)generator.nextGaussian()*150+540));
 
         }
         this.width=width;
@@ -94,7 +97,7 @@ public class HeatView extends RelativeLayout {
         }
 
         int x = 0, y = 0;
-        for ( ReadingSession.Touch t : touches ) {
+        for ( GazeSession.Touch t : touches ) {
             if ( t.get_X() >= 0 && t.get_X() < this.width && t.get_Y() >= 0 && t.get_Y() < this.height ) {
                 x = (int) (((t.get_X()) *(widthTile)) /(((float) this.width)));
                 y = (int) (((t.get_Y()* (heightTile)) / (((float) this.height) )));
