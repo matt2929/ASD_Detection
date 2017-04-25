@@ -57,6 +57,6 @@ public class DrawPointTransparent extends RelativeLayout {
         Float porpY = (_Y / dm.heightPixels) * this.getHeight();
         Log.e("x:", "" + porpX);
         Log.e("y:", "" + porpY);
-        canvas.drawCircle(porpX, porpY, 15, paintYellow);
+        canvas.drawCircle(porpX, porpY, 40, paintYellow);
     }
 }

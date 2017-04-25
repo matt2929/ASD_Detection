@@ -24,6 +24,7 @@ import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewSwitcher;
 
 import com.example.matthew.austism.Utilities.GazeSession;
@@ -123,14 +124,24 @@ public class DataCollection extends Activity implements Camera.PreviewCallback {
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+        MainActivity.transitionToast.cancel();
         setContentView(R.layout.activity_data_collection);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         smileText = (TextView) findViewById(R.id.smileText);
         smileText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getApplicationContext(), ReportAnalysis.class);
-                startActivity(i);
+                MainActivity.transitionToast = Toast.makeText(getApplicationContext(), "loading", Toast.LENGTH_LONG);
+                MainActivity.transitionToast.show();
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent i = new Intent(getApplicationContext(), ReportAnalysis.class);
+                        startActivity(i);
+                    }
+                }, 10);
+
             }
         });
         if ( CameraPreviewActivity.cameraState ) {

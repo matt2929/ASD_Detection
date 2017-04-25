@@ -6,10 +6,16 @@
     android:layout_height="match_parent"
     tools:context="com.example.matthew.austism.Activities.HistoryPicturePicker">
 
-    <ListView
-        android:id="@+id/pictureChoiceList"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@android:drawable/gallery_thumb"
-        android:dividerHeight="1dp"/>
+        android:orientation="vertical">
+
+        <ListView
+            android:id="@+id/pictureChoiceList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorPrimaryDark"/>
+
+    </LinearLayout>
 </RelativeLayout>

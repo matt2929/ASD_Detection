@@ -21,6 +21,8 @@ import java.util.Random;
 
 public class HeatView2 extends RelativeLayout {
     private Paint paint;
+    ArrayList<GazeSession.Touch> touches = new ArrayList<>();
+
     private int widthTile = 15, heightTile = 15;
     private HashMap<String, Integer> trackHeat = new HashMap<>();
     private HashMap<String, Integer> trackHeatColor = new HashMap<>();
@@ -46,6 +48,14 @@ public class HeatView2 extends RelativeLayout {
         paint = new Paint();
         paint.setColor(Color.YELLOW);
         paint.setAlpha(30);
+        Random generator = new Random();
+
+        for(int i=0;i<75;i++){
+            Calendar calendar = Calendar.getInstance();
+            touches.add(new GazeSession.Touch((float)generator.nextGaussian()*550+960,(float)generator.nextGaussian()*150+540));
+
+        }
+
         this.setBackgroundColor(Color.TRANSPARENT);
     }
 
@@ -78,7 +88,7 @@ public class HeatView2 extends RelativeLayout {
     }
 
     public void init(float width, float height) {
-        ArrayList<GazeSession.Touch> touches = new ArrayList<>();
+        touches.clear();
         Random generator = new Random();
         for(int i=0;i<75;i++){
             Calendar calendar = Calendar.getInstance();
@@ -132,5 +142,13 @@ public class HeatView2 extends RelativeLayout {
             }
             trackHeatColor.put(entry.getKey(),a);
         }
+    }
+
+    public HashMap<String, Integer> getTrackHeat() {
+        return trackHeat;
+    }
+
+    public ArrayList<GazeSession.Touch> getTouches() {
+        return touches;
     }
 }

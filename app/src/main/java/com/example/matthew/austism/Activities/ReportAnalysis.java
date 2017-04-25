@@ -24,7 +24,7 @@ public class ReportAnalysis extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        MainActivity.transitionToast.cancel();
         setContentView(R.layout.activity_report_analysis);
         textView = (TextView) findViewById(R.id.riskfactortext);
         textView2 = (TextView) findViewById(R.id.textView4);

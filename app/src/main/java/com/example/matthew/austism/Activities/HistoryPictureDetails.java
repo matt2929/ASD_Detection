@@ -47,9 +47,9 @@ public class HistoryPictureDetails extends Activity {
         setContentView(R.layout.activity_history_details);
         SaveData saveData = new SaveData(getApplicationContext());
         drawPointTransparent = (DrawPointTransparent) findViewById(R.id.DrawPointEye);
-        gazeSessions = saveData.getGazeSessions(getApplicationContext());
-        pictureInfo = gazeSessions.get(History.choice).getPictureInfo().get(HistoryPicturePicker.picChoice);
-        pictureID = pictureInfo.getPicID();
+       // gazeSessions = saveData.getGazeSessions(getApplicationContext());
+       // pictureInfo = gazeSessions.get(History.choice).getPictureInfo().get(HistoryPicturePicker.picChoice);
+       // pictureID = pictureInfo.getPicID();
         ImageView imageView = (ImageView) findViewById(R.id.showwhereeyeare);
         checkBox = (CheckBox) findViewById(R.id.gazeCheckBox);
         start = (Button) findViewById(R.id.gazeStart);
@@ -84,11 +84,19 @@ public class HistoryPictureDetails extends Activity {
             }
         });
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        ArrayList<Integer> pictureInfo = new ArrayList<Integer>();
+        pictureInfo.add(R.drawable.cat);
+        pictureInfo.add(R.drawable.two_boys);
+        pictureInfo.add(R.drawable.three_girls);
+        pictureInfo.add(R.drawable.hummingbird);
+        pictureInfo.add(R.drawable.dog);
+        pictureInfo.add(R.drawable.deer);
+        int choice =pictureInfo.get(HistoryPicturePicker.picChoice);
 
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                delay = (seekBar.getMax() - seekBar.getProgress()) + 5;
+                delay = (seekBar.getMax() - seekBar.getProgress()) *5 ;
             }
 
             @Override
@@ -116,7 +124,7 @@ public class HistoryPictureDetails extends Activity {
             }
         });
         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-        imageView.setImageResource(pictureID);
+        imageView.setImageResource(choice);
     }
 
     public void drawPointTouch(float x, float y) {
@@ -126,9 +134,9 @@ public class HistoryPictureDetails extends Activity {
 
     public void updateView() {
         Log.e("data: ", " " + position);
-        GazeSession.Touch touch = pictureInfo.getEye().get(position);
+        GazeSession.Touch touch = heatView.getTouches().get(position);
         drawPointTouch(touch.get_X(), touch.get_Y());
-        float progress = (float) position / (float) pictureInfo.getEye().size();
+        float progress = (float) position / (float) heatView.getTouches().size();
         textView.setText("Coordinate:[" + touch.get_X() + "," + touch.get_Y() + "]");
         progressBar.setProgress((int) (progress * 100));
 
@@ -149,7 +157,7 @@ public class HistoryPictureDetails extends Activity {
         }
         public void run() {
             if ( running ) {
-                if ( position + 1 == pictureInfo.getEye().size() ) {
+                if ( position + 1 == heatView.getTouches().size() ) {
                 } else {
                     position++;
                 }

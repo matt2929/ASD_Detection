@@ -13,6 +13,7 @@ import com.example.matthew.austism.Utilities.GazeSession;
 import com.example.matthew.austism.Utilities.SaveData;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class History extends Activity {
     ListView listView;
@@ -21,13 +22,15 @@ public class History extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MainActivity.transitionToast.cancel();
         setContentView(R.layout.activity_history);
         listView = (ListView) findViewById(R.id.listOfPics);
 
         ArrayList<String> stringList = new ArrayList<>();
         saveData = new SaveData(getApplicationContext());
         ArrayList<GazeSession> gazeSessions= saveData.getGazeSessions(getApplicationContext());
-
+        Calendar cal = Calendar.getInstance();
+        stringList.add(""+(0)+") "+cal.getTime().toString());
         for(int i=0;i<gazeSessions.size();i++){
             stringList.add(""+(i+1)+") "+gazeSessions.get(i).getStartTime().getTime().toString());
         }

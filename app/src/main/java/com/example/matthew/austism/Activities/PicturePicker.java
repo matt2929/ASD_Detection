@@ -14,7 +14,7 @@ import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ViewSwitcher;
-
+*//*
 public class PicturePicker extends Activity {
     ImageSwitcher imageSwitcher;
     ImageView alertBox;

@@ -121,6 +121,7 @@ public class CameraPreviewActivity extends Activity implements Camera.PreviewCal
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        MainActivity.transitionToast.cancel();
         setContentView(R.layout.activity_camera_preview);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         myView = new View(CameraPreviewActivity.this);
@@ -141,8 +142,8 @@ public class CameraPreviewActivity extends Activity implements Camera.PreviewCal
         clock2 = new Clock2(handler);
         clock2.run();
         ///smoothing algorithm
-        movingAverageX = new MovingAverage(20);
-        movingAverageY = new MovingAverage(20);
+        movingAverageX = new MovingAverage(15);
+        movingAverageY = new MovingAverage(15);
         // Check to see if the FacialProc feature is supported in the device or no.
         fpFeatureSupported = FacialProcessing
                 .isFeatureSupported(FacialProcessing.FEATURE_LIST.FEATURE_FACIAL_PROCESSING);
@@ -198,8 +199,17 @@ public class CameraPreviewActivity extends Activity implements Camera.PreviewCal
         restartCalibration.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), DataCollection.class);
-                startActivity(i);
+                MainActivity.transitionToast = Toast.makeText(getApplicationContext(), "loading", Toast.LENGTH_LONG);
+                MainActivity.transitionToast.show();
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent i = new Intent(getApplicationContext(), DataCollection.class);
+                        startActivity(i);
+                    }
+                }, 10);
+
             }
         });
 
@@ -544,9 +554,16 @@ public class CameraPreviewActivity extends Activity implements Camera.PreviewCal
         record.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent i = new Intent(getApplicationContext(), DataCollection.class);
-                startActivity(i);
-
+                MainActivity.transitionToast = Toast.makeText(getApplicationContext(), "loading", Toast.LENGTH_LONG);
+                MainActivity.transitionToast.show();
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        Intent i = new Intent(getApplicationContext(), DataCollection.class);
+                        startActivity(i);
+                    }
+                }, 10);
             }
         });
         restartCalibration.setOnClickListener(new OnClickListener() {
